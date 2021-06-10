@@ -1,0 +1,105 @@
+/* variables que se utilizaran en todo el archivo*/
+
+:root {
+    --color-dark: #15181f;
+    --color-dark-x: #2d343f;
+    --color-dark-xx: #1f232b;
+    --color-light: #ffffff;
+    --color-gray: #f5f6f8;
+}
+
+
+/*Color body, Tambien hacemos uso de las variables creadas arriba*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    background-color: var(--color-gray);
+    color: var(--color-light);
+    letter-spacing: .05rem;
+}
+
+
+/*Sobreescribimos algunas clases de bootstrap, "important" para soobreescribir 
+las clases que ya se definieron en bootstrap*/
+
+.bg-light {
+    background-color: var(--color-light)!important;
+}
+
+.bg-dark {
+    background-color: var(--color-dark)!important;
+}
+
+
+/*clase para añadir padding*/
+
+.p-6 {
+    padding: 4rem 7rem;
+}
+
+.contact-box {
+    padding: 1.5rem;
+    background-color: #141416;
+}
+
+
+/*Sobreescribir la clase*/
+
+.btn {
+    font-weight: 400;
+    padding: 1rem 2rem;
+    border-radius: 5rem;
+    min-width: 10rem;
+    color: white;
+}
+
+.btn-outline-dark {
+    border: 2px solid var(--color-dark-xx);
+}
+
+
+/*Posicion del logo*/
+
+ion-icon {
+    position: relative;
+    left: -5px;
+    top: 1.5px;
+}
+
+.form-control {
+    background-color: var(--color-dark-xx);
+    border: 2px solid var(--color-dark-xx);
+    border-radius: .2rem;
+    padding: 1rem 1rem;
+    color: #ffffff;
+}
+
+.register-bg {
+    background-image: url(../img/fondo2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+
+/*Responsive*/
+
+@media(max-width: 700px) {
+    .p-6 {
+        padding: 2rem;
+    }
+    .contact-box {
+        padding: 0;
+    }
+    .width-100 {
+        width: 100%;
+    }
+}
+
+@media(max-width: 1200px) {
+    .register-bg {
+        min-height: 50vh;
+    }
+}
