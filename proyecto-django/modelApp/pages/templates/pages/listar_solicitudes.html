@@ -1,0 +1,63 @@
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lex</title>
+    {% load static %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static '/css/main.css'%}">
+</head>
+
+<body>
+    <nav class="main-navigation">
+        <div class="navbar-header animated fadeInUp">
+            <a class="navbar-brand" href="#">Oficina Abogados LEX</a>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-list-item">
+                <a href="{% url 'home' %}" class="nav-link">Inicio</a>
+            </li>
+            <li class="nav-list-item">
+                <a href="paginas/tarjeta.html" class="nav-link">Pagos</a>
+            </li>
+            <li class="nav-list-item">
+                <a href="paginas/RegistroCausas.html" class="nav-link">Registro Causas</a>
+            </li>
+            <li class="nav-list-item">
+                <a href="{% url 'contacto' %}" class="nav-link">Contacto</a>
+            </li>
+            <li class="nav-list-item">
+                <a href="paginas/login.html" class="nav-link">Iniciar Sesion</a>
+            </li>
+        </ul>
+    </nav>
+    <br><br><br>
+    <div class="how-section1">
+        <div class="contenedor">
+            <h2>Listado de solicitudes</h2>
+            <table class="table table-striped">
+
+                <tr>
+                    <th>Rut</th>
+                    <th>Correo electrónico</th>
+                    <th>Tipo</th>
+                </tr>
+
+                {% for solicitud in solicitudes %}
+
+                <tr>
+                    <td>{{ solicitud.rut }}</td>
+                    <td>{{ solicitud.correo }}</td>
+                    <td>{{ solicitud.tipo }}</td>
+                </tr>
+                {% endfor %}
+        </div>
+        </table>
+    </div>
+</body>
+
+</html>
