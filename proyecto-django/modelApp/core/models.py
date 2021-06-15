@@ -8,7 +8,7 @@ class Cliente(models.Model):
     apellido_paterno = models.CharField(max_length=20, null=False)
     apellido_materno = models.CharField(max_length=20, null=False)
     email = models.EmailField(max_length=254)
-    numero = models.PhoneNumberField()
+    numero = models.CharField(max_length=50)
 
     def __str__(self):
         return "%s %s" % (self.nombre, self.apellido_paterno, self.apellido_materno)
