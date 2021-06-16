@@ -13,8 +13,11 @@ def contacto(request):
     return render(request, 'pages/contacto.html')
 
 def listar_solicitudes(request):
-    solicitudes = Solicitud.objects.all()
-    context = {'solicitudes':solicitudes}
+
     
+    solicitudes = Solicitud.objects.all()
+
+    context = {'solicitudes':solicitudes}
+    print(solicitudes)
 
     return render(request, 'pages/listar_solicitudes.html', context)

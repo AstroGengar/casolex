@@ -43,7 +43,9 @@
 
                 <tr>
                     <th>Rut</th>
-                    <th>Correo electrónico</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Correo</th>
                     <th>Tipo</th>
                 </tr>
 
@@ -51,7 +53,9 @@
 
                 <tr>
                     <td>{{ solicitud.rut }}</td>
-                    <td>{{ solicitud.correo }}</td>
+                    <td>{{ solicitud.rut.nombre }}</td>
+                    <td>{{ solicitud.rut.apellido_paterno }} {{ solicitud.rut.apellido_materno }}</td>
+                    <td>{{ solicitud.rut.email}}</td>
                     <td>{{ solicitud.tipo }}</td>
                 </tr>
                 {% endfor %}
