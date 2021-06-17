@@ -51,7 +51,7 @@
 .site-quick-support h5 {
     font-size: 32px;
     font-weight: 600;
-    color: #0f2027;
+    color: white;
 }
 
 .site-quick-support .site-info p {
@@ -100,7 +100,7 @@ a {
 .site-quick-support .site-box-row h6 {
     float: left;
     font-size: 25px;
-    color: #0f2027;
+    color: grey;
     line-height: 1;
     padding: 0;
     margin: 0;
