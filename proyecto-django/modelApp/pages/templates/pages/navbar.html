@@ -1,28 +1,38 @@
-<nav class="main-navigation">
-    <div class="navbar-header animated fadeInUp">
-        <a class="navbar-brand" href="#">Oficina Abogados LEX</a>
+<nav class="navbar navbar-expand-lg main-navigation">
+    <div class="container-fluid">
+        <div class="navbar-header animated fadeInUp">
+            <a class="navbar-brand display-5" href="{% url 'home' %}"><h2 class="fw-light">LEX Abogados</h4></a>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto nav-list">
+                <li class="nav-item nav-item nav-list-item">
+                    <a href="{% url 'home' %}" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'contacto' %}" class="nav-link">Contacto</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'user_page' %}" class="nav-link">Solicitud</a>
+                </li>
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'pagos_page' %}" class="nav-link">Pagos</a>
+                </li>
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'logout' %}" class="nav-link">Cerra Sessión</a>
+                </li>
+                {% else %}
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'login' %}" class="nav-link">Iniciar Sessión</a>
+                </li>
+                <li class="nav-item nav-list-item">
+                    <a href="{% url 'register_page' %}" class="nav-link">Registrarse</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-    <ul class="nav-list">
-        <li class="nav-list-item">
-            <a href="{% url 'home' %}" class="nav-link">Inicio</a>
-        </li>
-        <li class="nav-list-item">
-            <a href="paginas/tarjeta.html" class="nav-link">Pagos</a>
-        </li>
-        <li class="nav-list-item">
-            <a href="{% url 'user_page' %}" class="nav-link">Solicitud</a>
-        </li>
-        <li class="nav-list-item">
-            <a href="{% url 'contacto' %}" class="nav-link">Contacto</a>
-        </li>
-        {% if user.is_authenticated %}
-        <li class="nav-list-item">
-            <a href="{% url 'logout' %}" class="nav-link">Cerra Sessión</a>
-        </li>
-        {% else %}
-            <li class="nav-list-item">
-                <a href="{% url 'login' %}" class="nav-link">Iniciar Sessión</a>
-            </li>
-        {% endif %}
-    </ul>
 </nav>

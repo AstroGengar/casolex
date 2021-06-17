@@ -18,6 +18,8 @@ def home_page(request):
 
     return render(request, 'pages/home_contenido.html' ,context)
 
+def contacto(request):
+    return render(request, 'pages/contacto.html')
 
 def register_page(request):
     form = CreateUserForm()
@@ -68,9 +70,12 @@ def user_page(request):
     print(solicitudes)
     context = {'solicitudes': solicitudes}
     return render(request, 'pages/user.html', context)
-
-def contacto(request):
-    return render(request, 'pages/contacto.html')
+    
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['cliente'])
+def pagos_page(request):
+    context = {}
+    return render(request, 'pages/pagos.html', context)
 
 @usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
 def listar_solicitudes(request):

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="container">
-    <h3>Iniciar Sessión</h3>
+<div class="container my-3">
+    <h3 class="display-4 mt-2">Iniciar Sessión</h3>
     <form action="" method="POST">
         {% csrf_token %}
         <div class="d-flex flex-column">
@@ -15,8 +15,15 @@
         </div>
     </form>
     {% for message in messages%}
-        {{message}}
+    {{message}}
     {% endfor %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <h5>¿No te has registrado?</h5>
+            <a href="{% url 'register_page' %}" class="btn btn-outline-dark">Crear cuenta</a>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

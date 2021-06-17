@@ -23,6 +23,7 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     path('logout/', logoutUser, name='logout'),
     path('user/', user_page, name='user_page'),
+    path('pagos/', pagos_page, name='pagos_page'),
     path('contacto/', contacto, name='contacto'),
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
     
