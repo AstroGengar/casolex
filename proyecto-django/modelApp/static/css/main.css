@@ -3,6 +3,7 @@ body {
     padding: 0;
 }
 
+
 a.navbar-brand {
     float: left;
     height: 50px;
@@ -154,10 +155,6 @@ a.nav-link {
     color: #d68cf6;
     font-size: 20px;
 }
-
-/* p {
-    color: white;
-} */
 
 .how-section1 .row {
     margin-top: 10%;

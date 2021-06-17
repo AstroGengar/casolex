@@ -11,14 +11,12 @@ from django.contrib.auth.models import User
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = '__all__'
+        fields = ['rut', 'apellido_paterno', 'apellido_materno', 'numero']
 
         widgets = {
             'rut':forms.TextInput(attrs={'class': 'form-control'}),
-            'nombre':forms.TextInput(attrs={'class': 'form-control'}),
             'apellido_paterno':forms.TextInput(attrs={'class': 'form-control'}),
             'apellido_materno':forms.TextInput(attrs={'class': 'form-control'}),
-            'email':forms.TextInput(attrs={'class': 'form-control'}),
             'numero':forms.TextInput(attrs={'class': 'form-control'}),
         }
 

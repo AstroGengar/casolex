@@ -23,23 +23,36 @@ def contacto(request):
 
 def register_page(request):
     form = CreateUserForm()
+    form_cliente = ClienteForm()
 
     if request.method == 'POST':
         form_cliente = CreateUserForm(request.POST)
+        form_datos = ClienteForm(request.POST)
         if form_cliente.is_valid():
             user = form_cliente.save()
-            user = form_cliente.cleaned_data.get('username')
-
-            group = Group.objects.get(name='clientes')
+            # obtener datos extra
+            apellido_paterno = request.POST.get('apellido_paterno')
+            apellido_materno = request.POST.get('apellido_materno')
+            numero = request.POST.get('numero')
+            rut = request.POST.get('rut')
+            user_name = form_cliente.cleaned_data.get('username')
+               
+            group = Group.objects.get(name='cliente')
             user.groups.add(group)
             Cliente.objects.create(
-                user=user
+                usuario=user,
+                nombre=user.username,
+                email=user.email,
+                apellido_paterno=apellido_paterno,
+                apellido_materno=apellido_materno,
+                numero=numero,
+                rut=rut,
             )
 
             messages.success(request, 'Cuenta creada exitosamente '+ user_name)
     
     
-    context = {'form': form}
+    context = {'form': form, 'formCliente': form_cliente}
     return render(request, 'pages/register_page.html', context)
 
 @usuario_identificado

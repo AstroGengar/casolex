@@ -4,13 +4,12 @@ from django.contrib.auth.models import User
 
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    rut = models.CharField(max_length=9, null=False)
-    nombre = models.CharField(max_length=20, null=False)
-    apellido_paterno = models.CharField(max_length=20, null=False)
-    apellido_materno = models.CharField(max_length=20, null=False)
+    rut = models.CharField(max_length=9, null=True)
+    nombre = models.CharField(max_length=20, null=True)
+    apellido_paterno = models.CharField(max_length=20, null=True)
+    apellido_materno = models.CharField(max_length=20, null=True)
     email = models.EmailField(max_length=254)
     numero = models.CharField(max_length=9)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return str(self.rut)
