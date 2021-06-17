@@ -19,6 +19,10 @@ from pages.views import *
 
 urlpatterns = [
     path('', home_page, name='home'),
+    path('register/', register_page, name='register_page'),
+    path('login/', login_page, name='login'),
+    path('logout/', logoutUser, name='logout'),
+    path('user/', user_page, name='user_page'),
     path('contacto/', contacto, name='contacto'),
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
     

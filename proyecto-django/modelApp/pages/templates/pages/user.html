@@ -1,0 +1,26 @@
+{% extends 'pages/home.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h3 class="display-4 my-3">Mis solicitudes</h3>
+       
+    <table class="table">
+        <tr>
+            <th>Rut</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Descripcion</th>
+        </tr>
+        {% for solicitud in solicitudes%} 
+        <tr>
+            <td>{{solicitud.cliente.rut}}</td>
+            <td>{{solicitud.get_tipo_display}}</td>
+            <th>{{solicitud.fecha|date:'d M Y'}}</th>
+            <th>{{solicitud.descripcion}}</th>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

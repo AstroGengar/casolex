@@ -1,0 +1,27 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <h3 class="display-3">Registrarse en la Página</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {% for form_part in form %}
+            <label for="{{form_part.name}}" class="form-label">{{form_part.label}}</label>
+            {{form_part}}
+    {% endfor %}
+        {% for form_part in formCliente %}
+            <label for="{{form_part.name}}" class="form-label">{{form_part.label}}</label>
+            {{form_part}}
+    {% endfor %}
+        <input type="submit" value="Crear Usuario" class="btn btn-outline-dark btn-lg my-3">
+    </form>
+    {% for message in messages %}
+            <p>{{message}}</p>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

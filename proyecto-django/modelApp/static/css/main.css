@@ -156,9 +156,9 @@ a.nav-link {
     font-size: 20px;
 }
 
-p {
+/* p {
     color: white;
-}
+} */
 
 .how-section1 .row {
     margin-top: 10%;
@@ -169,5 +169,5 @@ p {
 }
 
 .how-img img {
-    width: 40%;
+    /* width: 100%; */
 }

@@ -1,0 +1,28 @@
+<nav class="main-navigation">
+    <div class="navbar-header animated fadeInUp">
+        <a class="navbar-brand" href="#">Oficina Abogados LEX</a>
+    </div>
+    <ul class="nav-list">
+        <li class="nav-list-item">
+            <a href="{% url 'home' %}" class="nav-link">Inicio</a>
+        </li>
+        <li class="nav-list-item">
+            <a href="paginas/tarjeta.html" class="nav-link">Pagos</a>
+        </li>
+        <li class="nav-list-item">
+            <a href="{% url 'user_page' %}" class="nav-link">Solicitud</a>
+        </li>
+        <li class="nav-list-item">
+            <a href="{% url 'contacto' %}" class="nav-link">Contacto</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-list-item">
+            <a href="{% url 'logout' %}" class="nav-link">Cerra Sessión</a>
+        </li>
+        {% else %}
+            <li class="nav-list-item">
+                <a href="{% url 'login' %}" class="nav-link">Iniciar Sessión</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
