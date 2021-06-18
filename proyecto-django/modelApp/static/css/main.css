@@ -167,3 +167,25 @@ a.nav-link {
 .how-img img {
     /* width: 100%; */
 }
+
+#back-img{
+    object-fit: cover; 
+    height: 250px;
+    width: 100%;
+    filter: blur(1.5px);
+    -webkit-filter: blur(1.5px);
+}
+
+#img-text{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(48, 48, 48, 0.479);
+    /* background-size: 50% 50%; */
+}
+
+#div-img, #div-main{
+    padding-right: 0% !important;
+    padding-left: 0% !important;
+}

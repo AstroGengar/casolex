@@ -3,57 +3,79 @@
 
 
 {% block content %}
-<br><br><br>
-<div class="how-section1">
-    <div class="row">
-        <div class="col-md-6 how-img">
-            <img src="{% static '/img/ab1.jpg'%}" class="rounded-circle img-fluid" alt="" />
-        </div>
-        <div class="col-md-6">
-            <h4>Oficina Abogados LEX</h4>
-            <h4 class="subheading">Puede confiar en nosotros</h4>
-            <p class="text-white">Nuestra oficina se caracteriza por la cercanía de los abogados con sus clientes, desarrollando relaciones
-                de confianza que entregan satisfacción y seguridad. Nuestra misión es ser una real solución y apoyo para
-                cada uno de nuestros clientes.</p>
+<main>
+
+    <div>
+        <img src="{% static '/img/img-back.jpg' %}" id="back-img" class="card-img"/>
+        <div id="img-text" class="text-white">
+            <h1 class="display-1"> LEX Abogados</h1>
+            <p> Su confianza puesta en nuestras manos</p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Atendido personalmente por sus abogados.</h4>
-            <h4 class="subheading">Nuestros servicios es eficientes, rápido, serio y con un precio acorde al mercado
-                actual.</h4>
-            <p class="text-white">Oficina jurídica profesional, cuenta con asesoría seria de abogados con manejo de varios temas de interés
-                común, atención personalizada y rápida en la solución de conflictos de relevancia jurídica. Atención
-                todos los días de la semana.
-                y también fuera de la jornada laboral.</p>
+
+    <div class="container-fluid p-5">
+        <div class="container border-bottom shadow">
+            <div class="row p-3">
+                <div class="col-md-6 how-img my-auto p-2">
+                    <img src="{% static '/img/ab1.jpg'%}" class="border img-fluid " alt=""/>
+                </div>
+                <div class="col-md-6 bg-dark text-white p-2">
+                    <h2 class="display-4">Nosotros</h2>
+                    <hr>
+                    <h3 class="text-bolder" style="color: rgb(211, 211, 211);">Puede confiar en nosotros</h3>
+                    <p class="" style="color: rgb(148, 148, 148);">Nuestra oficina se caracteriza por la cercanía de los abogados con sus clientes,
+                        desarrollando relaciones
+                        de confianza que entregan satisfacción y seguridad. Nuestra misión es ser una real solución y apoyo
+                        para
+                        cada uno de nuestros clientes.</p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6 how-img">
-            <img src="{% static '/img/ab2.jpg'%}" class="rounded-circle img-fluid" alt="" />
+        <div class="container border">
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <h2>Atendido personalmente por sus abogados.</h2>
+                    <h4 class="subheading">Nuestros servicios es eficientes, rápido, serio y con un precio acorde al mercado
+                        actual.</h4>
+                    <p class="">Oficina jurídica profesional, cuenta con asesoría seria de abogados con manejo de
+                        varios temas de interés
+                        común, atención personalizada y rápida en la solución de conflictos de relevancia jurídica.</p>
+                </div>
+                <div class="col-md-6 my-auto">
+                    <img src="{% static '/img/ab2.jpg'%}" class="rounded-circle img-fluid" alt="" />
+                </div>
+            </div>
         </div>
+        <div class="container border">
+            <div class="row p-3">
+                <div class="col-md-6 how-img">
+                    <img src="{% static '/img/ab3.jpg' %}" class="rounded-circle img-fluid" alt="" />
+                </div>
+                <div class="col-md-6">
+                    <h2>¿Qué podemos ofrecerte?</h2>
+                    <h4 class="subheading">Completa asesoría en las siguientes áreas:</h4>
+                    <p class="">Divorcio en Chile, Divorcios para chilenos que viven en el extranjero, Tuición,
+                        Visitas, Alimentos,
+                        Violencia intrafamiliar, Juicios por Paternidad, Declaración de bienes familiares, Autorización para
+                        enajenar bienes de menores de edad,
+                        Posesiones efectivas y Herencias, etc...</p>
+                </div>
+            </div>
+        </div>
+        <div class="container border">
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <h2>¿Qué estas esperando?</h2>
+                    <h4 class="subheading">Contactanos!!</h4>
+                    <p class="">No dudes visitar la seccion "Contacto" donde encontrarás las diversas maneras de
+                        acceder a nuestros
+                        servicios.</p>
+                </div>
+                <div class="col-md-6 how-img">
+                    <img src="{% static '/img/ab4.jpg' %}" class="rounded-circle img-fluid" alt="" />
+                </div>
+            </div>
+        
     </div>
-    <div class="row">
-        <div class="col-md-6 how-img">
-            <img src="{% static '/img/ab3.jpg' %}" class="rounded-circle img-fluid" alt="" />
-        </div>
-        <div class="col-md-6">
-            <h4>¿Qué podemos ofrecerte?</h4>
-            <h4 class="subheading">Completa asesoría en las siguientes áreas:</h4>
-            <p class="text-white">Divorcio en Chile, Divorcios para chilenos que viven en el extranjero, Tuición, Visitas, Alimentos,
-                Violencia intrafamiliar, Juicios por Paternidad, Declaración de bienes familiares, Autorización para
-                enajenar bienes de menores de edad,
-                Posesiones efectivas y Herencias, etc...</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>¿Qué estas esperando?</h4>
-            <h4 class="subheading">Contactanos!!</h4>
-            <p class="text-white">No dudes visitar la seccion "Contacto" donde encontrarás las diversas maneras de acceder a nuestros
-                servicios.</p>
-        </div>
-        <div class="col-md-6 how-img">
-            <img src="{% static '/img/ab4.jpg' %}" class="rounded-circle img-fluid" alt="" />
-        </div>
-    </div>
-</div>
+</main>
 {% endblock %}
