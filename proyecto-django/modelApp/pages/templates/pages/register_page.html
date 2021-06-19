@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container">
-    <h3 class="display-3">Registrarse en la Página</h3>
+    <h3 class="display-3 my-2">Registrarse en la Página</h3>
     <form action="" method="POST">
         {% csrf_token %}
         {% for form_part in form %}
@@ -18,8 +18,10 @@
     {% endfor %}
         <input type="submit" value="Crear Usuario" class="btn btn-dark btn-lg my-3">
     </form>
-    {% for message in messages %}
-            <p>{{message}}</p>
+    {% for message in messages%}
+        <div class="alert alert-{{message.tags}} my-3" role="alert">
+            {{message}}
+        </div>
     {% endfor %}
 </div>
 

@@ -15,7 +15,7 @@ from core.decorators import *
 
 def home_page(request):
     context = {}
-
+    
     return render(request, 'pages/home_contenido.html' ,context)
 
 def contacto(request):
@@ -75,14 +75,39 @@ def login_page(request):
 def logoutUser(request):
     logout(request)
     return redirect('login') 
-
+# Parte de los clientes
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['cliente'])
 def user_page(request):
+    # Main page de los clientes
     solicitudes = request.user.cliente.cliente.all()
     print(solicitudes)
     context = {'solicitudes': solicitudes}
     return render(request, 'pages/user.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['cliente'])
+def user_add_solicitud(request):
+    # Ingresar solicitud de un cliente
+    forms = SolicitudUserForm()
+        
+    if request.method == 'POST':
+        cliente = request.user.cliente
+        tipo = request.POST.get('tipo')
+        descripcion = request.POST.get('descripcion')
+        
+        try:
+            Solicitud.objects.create(
+                cliente=cliente,
+                tipo=tipo,
+                descripcion=descripcion
+            )
+            messages.info(request, 'Solicitud creada con exito')
+        except Exception as e:
+            messages.info(request, 'Solicitud no pudo ser creada')
+
+    context = {'forms': forms}
+    return render(request, 'pages/ingresar_solicitud.html', context)
     
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['cliente'])
@@ -90,12 +115,33 @@ def pagos_page(request):
     context = {}
     return render(request, 'pages/pagos.html', context)
 
+
+# Parte de Admin
+@login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
 def listar_solicitudes(request):
 
-    
     solicitudes = Solicitud.objects.all()
 
     context = {'solicitudes':solicitudes}
 
     return render(request, 'pages/listar_solicitudes.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
+def revisar_solicitud(request, pk):
+    solicitud = Solicitud.objects.get(id=pk)
+    form = SolicitudForm(instance=solicitud)
+    if request.method == 'POST':
+        form = SolicitudForm(request.POST, instance=solicitud)
+        try:
+            if form.is_valid():
+                form.save()
+                messages.info(request, 'Solicitud actualizada con exito')
+            else:
+                messages.error(request, 'No se pudo actualizar la información')
+        except Exception as e:
+            print(e)
+
+    context = {'form': form, 'solicitud': solicitud}
+    return render(request, 'pages/revisar_solicitud.html', context)

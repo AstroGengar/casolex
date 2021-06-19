@@ -1,0 +1,55 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container my-5">
+        <h2 class="display-4">Actualizar Solicitud</h2>
+        
+        <div class="d-flex flex-column my-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input class="form-control" type="text" placeholder="{{solicitud.cliente}}" name="nombre"  disabled>
+            <label for="rut" class="form-label">Rut</label>
+            <input class="form-control" type="text" placeholder="{{solicitud.cliente.rut}}" name="rut" disabled>
+            <label for="fecha" class="form-label">Fecha</label>
+            <input class="form-control" type="text" placeholder="{{solicitud.fecha|date:'d M Y'}}" name="fecha" disabled>
+            <label for="tipo" class="form-label">Tipo</label>
+            <input class="form-control" type="text" placeholder="{{solicitud.get_tipo_display}}" name="tipo" disabled>
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea class="form-control" type="text" placeholder="" name="descripcion" disabled>{{solicitud.descripcion}}</textarea>
+            <form action="" method="POST">
+                <div class="d-flex flex-column my-2">
+                    
+                    <label for="{{form.estado.name}}" class="form-label">Estado</label>
+                    {% csrf_token %}
+                    {{form.estado}}
+                    {% for message in messages%}
+                        {% if message.tags == 'info'%}
+                            <div class="alert alert-success my-3" role="alert">
+                                {{message}}
+                            </div>
+                        {% else %}
+                        <div class="alert alert-danger my-3" role="alert">
+                            {{message}}
+                        </div>
+                        {% endif%}
+                    {% endfor %}
+                    <div class="d-flex justify-content-between">
+                        {% if solicitud.estado == 'AP'%}
+                            <div class="container pt-3">
+                                <a href="" class="my-end text-decoration-none text-dark d-flex flex-row">
+                                    <h3 class=" my-auto mx-2">Presupuesto inicial</h3>
+                                    <i class="fas fa-file-invoice-dollar fa-2x my-auto"></i></a>
+                            </div>  
+                        {% endif %}
+                        <input type="submit" value="Actualizar" class="btn btn-primary my-3">    
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+        
+
+    </div>
+
+{% endblock %}

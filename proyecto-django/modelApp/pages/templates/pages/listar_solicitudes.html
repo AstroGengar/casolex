@@ -4,11 +4,10 @@
 
 {% block content %}
 
-<br><br><br>
-<div class="how-section1">
-    <div class="contenedor">
-        <h2 class="text-white my-3">Listado de solicitudes</h2>
-        <table class="table table-success table-striped">
+
+    <div class="container my-4">
+        <h2 class="text my-5">Listado de solicitudes</h2>
+        <table class="table table-striped border">
 
             <tr>
                 <th>Rut</th>
@@ -16,6 +15,7 @@
                 <th>Apellidos</th>
                 <th>Correo</th>
                 <th>Tipo</th>
+                <th></th>
             </tr>
 
             {% for solicitud in solicitudes %}
@@ -26,9 +26,9 @@
                 <td>{{ solicitud.cliente.apellido_paterno }} {{ solicitud.cliente.apellido_materno }}</td>
                 <td>{{ solicitud.cliente.email}}</td>
                 <td>{{ solicitud.get_tipo_display }}</td>
+                <td><a href="{% url 'revisar_solicitud' solicitud.id %}" class="btn btn-primary">Revisar</a></td>
             </tr>
             {% endfor %}
+        </table>
     </div>
-    </table>
-</div>
 {% endblock %}

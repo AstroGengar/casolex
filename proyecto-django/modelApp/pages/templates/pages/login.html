@@ -15,7 +15,9 @@
         </div>
     </form>
     {% for message in messages%}
-    {{message}}
+    <div class="alert alert-{{message.tags}}" role="alert">
+        {{message}}
+    </div>
     {% endfor %}
 
     <div class="container-fluid">

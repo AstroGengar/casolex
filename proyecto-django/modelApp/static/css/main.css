@@ -4,7 +4,7 @@ body {
 }
 
 
-a.navbar-brand {
+/* a.navbar-brand {
     float: left;
     height: 50px;
     padding: 15px 15px;
@@ -13,7 +13,7 @@ a.navbar-brand {
     text-decoration: none;
     color: white;
     font-weight: 700;
-}
+} */
 
 nav.main-navigation {
     background: #0f0c29;
@@ -42,8 +42,8 @@ nav.main-navigation ul.nav-list {
 
 a.nav-link {
     text-decoration: none;
-    font-size: 18px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* font-size: 18px; */
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
     font-weight: 500;
     cursor: pointer;
     position: relative;
@@ -178,14 +178,21 @@ a.nav-link {
 
 #img-text{
     position: absolute;
-    top: 30%;
-    left: 30%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(48, 48, 48, 0.479);
-    /* background-size: 50% 50%; */
+    bottom: 60px;
+    left: 30px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.185);
 }
 
 #div-img, #div-main{
     padding-right: 0% !important;
     padding-left: 0% !important;
+}
+
+.p-home{
+    color: rgb(148, 148, 148);
+}
+
+.h3-home{
+    color: rgb(211, 211, 211);
 }

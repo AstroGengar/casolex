@@ -32,3 +32,22 @@ class CreateUserForm(UserCreationForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
+
+
+class SolicitudUserForm(forms.ModelForm):
+    class Meta:
+        model = Solicitud
+        fields = ['tipo','descripcion']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('cliente', None)
+        super(SolicitudUserForm, self).__init__(*args, **kwargs)
+        
+
+class SolicitudForm(forms.ModelForm):
+
+    class Meta:
+        model = Solicitud
+        fields = ['estado']
+        # estado = forms.ChoiceField(choices=ESTADO_CONSULTA)
+    

@@ -23,10 +23,11 @@ urlpatterns = [
     path('login/', login_page, name='login'),
     path('logout/', logoutUser, name='logout'),
     path('user/', user_page, name='user_page'),
+    path('ingresar-solicitud', user_add_solicitud, name='user_add_solicitud'),
     path('pagos/', pagos_page, name='pagos_page'),
     path('contacto/', contacto, name='contacto'),
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
-    
+    path('revisar-solicitud/<str:pk>/', revisar_solicitud, name='revisar_solicitud'),
     
     
     # admin
