@@ -1,0 +1,33 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+    <main>
+        <div class="container">
+            <h1 class="display-4">Contrato</h1>
+                <h1>{{presupuesto.solicitud.cliente.nombre}}</h1>
+                <h1>{{presupuesto.solicitud.get_tipo_display}}</h1>
+                <a href="{{contrato.archivo.url}}">Descargar Archivo</a>
+                <h1>{{presupuesto.contrato.get_estado_display}}</h1>
+
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.archivo}}
+                    {{form.estado}}
+                    <input type="submit" value="Aceptar" class="btn btn-primary">
+                </form>
+                {% for message in messages%}
+                {% if message.tags == 'info'%}
+                    <div class="alert alert-success my-3" role="alert">
+                        {{message}}
+                    </div>
+                {% else %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{message}}
+                </div>
+                {% endif%}
+                {% endfor %}
+        </div>
+    </main>
+{% endblock %}

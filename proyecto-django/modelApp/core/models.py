@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.base import Model
 # Create your models here.
 
 class Cliente(models.Model):
@@ -55,3 +56,27 @@ class Solicitud(models.Model):
 
     def __str__(self):
         return str(self.tipo + ' ' + self.cliente.rut + ' ' + self.estado)
+
+class PresupuestoCliente(models.Model):
+    solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, related_name='solicitud')
+    valor = models.CharField(null=False, default='0', max_length=9)
+
+    def __str__(self):
+        return str(self.solicitud.cliente.rut + ' | ' + self.solicitud.tipo + ' | ' + self.valor)
+
+
+class ContratoCliente(models.Model):
+     
+    REVISION = 'RV'
+    FIRMADO = 'FM'
+    RECHAZADO = 'RC'
+
+    CONTRATO_ESTADO = [
+        (REVISION, 'Revisión'),
+        (FIRMADO, 'Firmado'),
+        (RECHAZADO, 'Rechazado'),
+    ]
+
+    presupuesto = models.ForeignKey(PresupuestoCliente, on_delete=models.CASCADE, related_name='presupuesto')
+    archivo = models.FileField()
+    estado = models.CharField(max_length=2, choices=CONTRATO_ESTADO, default=REVISION)

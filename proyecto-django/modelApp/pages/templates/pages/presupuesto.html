@@ -1,0 +1,30 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container my-3">
+        <h1 class="display-4">Presupuesto</h1>
+        <div class="container">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Agregar">
+            </form>
+            
+            {% for message in messages%}
+                {% if message.tags == 'info'%}
+                    <div class="alert alert-success my-3" role="alert">
+                        {{message}}
+                    </div>
+                {% else %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{message}}
+                </div>
+                {% endif%}
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

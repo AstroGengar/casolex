@@ -12,28 +12,46 @@
             <p>Seguridad y confianza</p>
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                <div class="d-flex flex-column">
-                    <i class="fas fa-user-circle fa-5x mx-auto"></i>
-                    <small class="mx-auto">Iniciar</small>
-
+    
+    <div class="container mt-5">
+        <div class="card-group shadow">
+                <div class="card border-dark pt-3">
+                    <div class="mx-auto my-auto">
+                        <i class="fas fa-user-circle fa-4x card-img-top mx-auto"></i>
+                    </div>
+                    <div class="card-body mx-auto my-auto">
+                        <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link"><p class="">Iniciar</p></a> 
+                    </div>
                 </div>
-
-            </div>
+                <div class="card border-dark pt-3">
+                    <div class="mx-auto my-auto">
+                        <i class="fas fa-envelope fa-4x card-img-top mx-auto"></i>
+                    </div>
+                    <div class="card-body mx-auto my-auto">
+                        <a href="{% url 'contacto' %}" class="text-dark text-decoration-none stretched-link"><p class="">Contacto</p></a>
+                    </div>
+                </div>
+                <div class="card border-dark pt-3">
+                    <div class="mx-auto my-auto">
+                        <i class="fas fa-users fa-4x card-img-top mx-auto"></i>
+                    </div>
+                    <div class="card-body mx-auto my-auto">
+                        <a href="" class="text-dark text-decoration-none stretched-link"><p class="">Sobre Nosotros</p></a>
+                    </div>
+                </div>
+            
         </div>
     </div>
-    <div class="container-fluid p-5">
+    <div class="container-fluid p-3">
         <div class="container border-bottom shadow my-3">
             <div class="row p-3">
                 <div class="col-md-6 how-img my-auto p-2">
                     <img src="{% static '/img/ab1.jpg'%}" class="border img-fluid" alt="" />
                 </div>
                 <div class="col-md-6 bg-dark text-white p-3">
-                    <h2 class="display-4">Nosotros</h2>
+                    <h2 class="display-4">Nuestro equipo</h2>
                     <hr>
-                    <h3 class="h3-home">Puede confiar en nosotros</h3>
+                    <h3 class="h3-home">Puede confiar</h3>
                     <p class="p-home">Nuestra oficina se caracteriza por la cercanía de los abogados con sus clientes,
                         desarrollando relaciones
                         de confianza que entregan satisfacción y seguridad. Nuestra misión es ser una real solución y

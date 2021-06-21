@@ -51,3 +51,14 @@ class SolicitudForm(forms.ModelForm):
         fields = ['estado']
         # estado = forms.ChoiceField(choices=ESTADO_CONSULTA)
     
+
+class PresupuestoForm(forms.ModelForm):
+    class Meta:
+        model = PresupuestoCliente
+        fields = ['valor']
+
+
+class ContratoForm(forms.ModelForm):
+    class Meta:
+        model = ContratoCliente
+        fields = ['archivo', 'estado']

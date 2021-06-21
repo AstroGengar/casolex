@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from pages.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home_page, name='home'),
@@ -28,8 +30,14 @@ urlpatterns = [
     path('contacto/', contacto, name='contacto'),
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
     path('revisar-solicitud/<str:pk>/', revisar_solicitud, name='revisar_solicitud'),
-    
+    path('presupuesto-inicial/<str:pk>', presupuesto_inicial, name='presupuesto_inicial'),   
+    path('contrato/<str:pk>', contrato_page, name='contrato_page'),
     
     # admin
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    

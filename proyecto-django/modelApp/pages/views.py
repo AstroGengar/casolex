@@ -1,5 +1,6 @@
 import django
 from django.contrib.auth import authenticate
+from django.http import request
 from django.shortcuts import render, redirect
 from core.models import *
 from core.forms import *
@@ -145,3 +146,66 @@ def revisar_solicitud(request, pk):
 
     context = {'form': form, 'solicitud': solicitud}
     return render(request, 'pages/revisar_solicitud.html', context)
+
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
+def presupuesto_inicial(request, pk):
+    solicitud = Solicitud.objects.get(id=pk)
+    form = PresupuestoForm()
+    try:
+        presupuesto = PresupuestoCliente.objects.get(solicitud=solicitud)
+        form = PresupuestoForm(instance=presupuesto)
+        if request.method == 'POST':
+            form = PresupuestoForm(request.POST, instance=presupuesto)
+            if form.is_valid():
+                form.instance.solicitud = solicitud
+                form.save()
+                messages.info(request, 'Presupuesto creado con exito')
+            else:
+                messages.error(request, 'Presupuesto rechazado')
+    except:
+        form = PresupuestoForm()
+        if request.method == 'POST':
+            form = PresupuestoForm(request.POST)
+            if form.is_valid():
+                form.instance.solicitud = solicitud
+                form.save()
+                messages.info(request, 'Presupuesto creado con exito')
+            else:
+                messages.error(request, 'Presupuesto rechazado')
+
+   
+    
+    context = {'form': form}
+    return render(request, 'pages/presupuesto.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogados'])
+def contrato_page(request, pk):
+    presupuesto = PresupuestoCliente.objects.get(id=pk)
+    
+    form = ContratoForm()
+    try:
+        contrato = ContratoCliente.objects.get(presupuesto = presupuesto)
+        form = ContratoForm(instance=contrato)
+        if request.method == 'POST':
+            form = ContratoForm(request.POST, instance=contrato)
+            if form.is_valid():
+                form.save()
+    except:
+        contrato = 'no hay contrato'
+        if request.method == 'POST':
+            form = ContratoForm(request.POST, request.FILES)
+            form.instance.presupuesto = presupuesto
+
+            if form.is_valid():
+                form.save()
+                messages.info(request, 'Aceptado')
+
+            else:
+                messages.error(request, 'rechazado')
+
+        
+    context = {'presupuesto': presupuesto, 'contrato': contrato, 'form': form}
+    return render(request, 'pages/contrato.html', context)
