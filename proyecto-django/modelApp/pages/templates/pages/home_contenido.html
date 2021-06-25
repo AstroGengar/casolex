@@ -1,5 +1,6 @@
 {% extends 'pages/home.html' %}
 {% load static %}
+{% load poll_extras %}
 
 
 {% block content %}
@@ -19,9 +20,35 @@
                     <div class="mx-auto my-auto">
                         <i class="fas fa-user-circle fa-4x card-img-top mx-auto"></i>
                     </div>
-                    <div class="card-body mx-auto my-auto">
-                        <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link"><p class="">Iniciar</p></a> 
-                    </div>
+                    {% if user.is_authenticated %}
+                        {% if user|is_group:"cliente"%}
+                            <div class="card-body mx-auto my-auto">
+                                <a href="{% url 'user_page' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
+                                    <p class="">Iniciar</p>
+                                </a> 
+                            </div>
+                        {% elif user|is_group:"tecnico"%}
+                            <div class="card-body mx-auto my-auto">
+                                <a href="{% url 'funcionario' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
+                                    <p class="">Iniciar</p>
+                                </a> 
+                            </div>
+                        {% elif user|is_group:"abogado"%}
+                            <div class="card-body mx-auto my-auto">
+                                <a href="{% url 'funcionario' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
+                                    <p class="">Iniciar</p>
+                                </a> 
+                            </div>
+                        {% else %}
+                            <div class="card-body mx-auto my-auto">
+                                <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link"><p class="">Iniciar</p></a> 
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="card-body mx-auto my-auto">
+                            <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link"><p class="">Iniciar</p></a> 
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="card border-dark pt-3">
                     <div class="mx-auto my-auto">
@@ -36,13 +63,14 @@
                         <i class="fas fa-users fa-4x card-img-top mx-auto"></i>
                     </div>
                     <div class="card-body mx-auto my-auto">
-                        <a href="" class="text-dark text-decoration-none stretched-link"><p class="">Sobre Nosotros</p></a>
+                        <a href="#sobreNosotros" class="text-dark text-decoration-none stretched-link"><p class="">Sobre Nosotros</p></a>
                     </div>
                 </div>
             
         </div>
     </div>
-    <div class="container-fluid p-3">
+    
+    <div class="container-fluid p-3" id="sobreNosotros">
         <div class="container border-bottom shadow my-3">
             <div class="row p-3">
                 <div class="col-md-6 how-img my-auto p-2">
@@ -66,7 +94,7 @@
                 <div class="col-md-6 bg-dark text-white p-3">
                     <h2 class="display-4">Atención personalizada</h2>
                     <hr>
-                    <h3 class="h3-home">Nuestros servicios es eficientes y serio</h3>
+                    <h3 class="h3-home">Nuestro servicio es eficiente y serio</h3>
                     <p class="p-home">Oficina jurídica profesional, cuenta con asesoría seria de abogados con manejo de
                         varios temas de interés
                         común, atención personalizada y rápida en la solución de conflictos de relevancia jurídica.</p>
@@ -100,7 +128,7 @@
                     <h2 class="display-4">¿Más información?</h2>
                     <hr>
                     <h4 class="subheading">Contactanos</h4>
-                    <p class="p-home">No dudes visitar la seccion "Contacto" donde encontrarás las diversas maneras de
+                    <p class="p-home">Visita la seccion "Contacto" donde encontrarás las diversas maneras de
                         acceder a nuestros
                         servicios.</p>
                 </div>
@@ -111,4 +139,6 @@
 
         </div>
 </main>
+{% include 'pages/footer.html'%}
+
 {% endblock %}

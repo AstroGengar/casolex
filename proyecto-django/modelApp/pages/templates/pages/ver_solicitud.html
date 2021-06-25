@@ -1,0 +1,163 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container my-2">
+        <h2 class="display-3 mt-4">Ver solicitud</h2>
+        <div class="accordion my-3" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                        Solicitud
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                    aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <h1 class="">Datos personales</h1>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Nombre</h3>
+                                        <h4 class="text-secondary">{{solicitud.cliente}}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Email</h3>
+                                        <h4 class="text-secondary">{{solicitud.cliente.email}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Teléfono</h3>
+                                        <h4 class="text-secondary">{{solicitud.cliente.numero}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="mt-4">Datos de solicitud</h1>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Número</h3>
+                                        <h4 class="text-secondary">{{solicitud.id}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Fecha</h3>
+                                        <h4 class="text-secondary">{{solicitud.fecha|date:'d M y'}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Tipo</h3>
+                                        <h4 class="text-secondary">{{solicitud.get_tipo_display}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Estado</h3>
+                                        <h4 class="text-secondary">{{solicitud.get_estado_display}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="container mx-auto">
+                                        <h3 class="mt-2">Descripción</h3>
+                                        <div class="text-secondary border p-2 mb-4">{{solicitud.descripcion}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                        Presupuesto
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Valor</h3>
+                                        {% if presupuesto == 'sin presupuesto' %}
+                                            <h3 class="text-secondary">Sin presupuesto</h3>
+                                        {% else %}
+                                            <h4 class="text-secondary">$ {{presupuesto.valor}}</h4>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapsethree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapsethree">
+                        Contrato
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapsethree" class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <div class="container">
+                            <div class="row">
+                                {% if contrato == 'sin contrato' %}
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Contrato</h3>
+                                            <h4 class="text-secondary">Sin Contrato</h4>
+                                    </div>
+                                </div>
+                                {% else %}                                        
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Archivo</h3>
+                                            <a href="{{contrato.archivo.url}}"><h4 class="text-secondary"><i class="fas fa-file-download"></i> Archivo PDF</h4></a>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="container mx-auto">
+                                        <h3>Estado</h3>
+                                            <h4 class="text-secondary">{{contrato.get_estado_display}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="container">
+                                        <h3>Firmar Contrato</h3>
+                                        <h4 class="text-secondary">{{contrato.get_estado_display}}</h4>
+                                        <hr>
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">Firmar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+{% endblock%}

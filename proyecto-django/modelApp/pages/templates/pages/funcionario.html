@@ -1,4 +1,8 @@
 {% extends 'pages/home.html' %}
+{% load static %}
+
+{% load poll_extras %}
+
 
 {% block content %}
 
@@ -8,46 +12,22 @@
             <div class="container-fluid bg-dark text-white rounded-2 mt-3 px-1">
                 <div class="d-flex flex-column pt-5">
                     <i class="fas fa-user fa-4x mx-auto"></i>
-                    <p class="mx-auto mt-2">{{request.user.cliente}}</p>
+                    <p class="mx-auto mt-2">{{request.user.username|title}}</p>
                 </div>
                 <div class="container-fluid p-2 pb-5">
-                    <a href="{% url 'user_page' 'inicio' %}" class="text-decoration-none"><h4 class="text-white">Inicio</h4></a>
-                    <a href="{% url 'user_page' 'soli' %}" class="text-decoration-none"><h4 class="text-white">Solicitudes</h4></a>
-                    <a href="{% url 'user_page' 'presu' %}" class="text-decoration-none"><h4 class="text-white">Presupuestos</h4></a>
-                    <a href="{% url 'user_page' 'contr' %}" class="text-decoration-none"><h4 class="text-white">Contratos</h4></a>
-                    <a href="{% url 'user_page' 'caus' %}" class="text-decoration-none"><h4 class="text-white">Causas</h4></a>
-                    
+                    <a href="{% url 'funcionario' 'inicio' %}" class="text-decoration-none"><h4 class="text-white">Inicio</h4></a>
+                    <a href="{% url 'funcionario' 'soli' %}" class="text-decoration-none"><h4 class="text-white">Solicitudes</h4></a>
+                    <a href="{% url 'funcionario' 'presu' %}" class="text-decoration-none"><h4 class="text-white">Presupuestos</h4></a>
+                    <a href="{% url 'funcionario' 'contr' %}" class="text-decoration-none"><h4 class="text-white">Contratos</h4></a>
+                    <a href="{% url 'funcionario' 'caus' %}" class="text-decoration-none"><h4 class="text-white">Causas</h4></a>
                 </div>
             </div>
         </div>
         <div class="col col-lg-10">
             <div class="container border rounded-2 shadow mt-3 pb-5">
                 <div class="d-flex justify-content-between pt-3">
-                    <h1 class="">{{nombre|capfirst}}</h1>
-                    <div class="dropdown pt-1">
-                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Notificaciones 
-                            {% if notifiaciones == None%}
-                            
-                            {%else%}
-                            <span class="badge bg-danger">
-                                {{notifiaciones.count}}
-                            </span>
-                            {%endif%}
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                          {% for notifiacion in notifiaciones%}
-                            <li class="dropdow-item">                                
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto fw-lighter">
-                                      <div class="fw-normal">{{notifiacion.informacion}}</div>
-                                      {{notifiacion.fecha|date:'j/n'}}
-                                    </div>
-                                </li>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                    </div>
+                    <h1 class="">{{nombre}}</h1>
+                    
                 </div>
                 <!-- Pagina de Inicio -->
                 {% if 'inicio' in request.path %}
@@ -55,9 +35,9 @@
                         <div class="col">
                             <div class="container border rounded-2 p-2 shadow-sm">
                                 <div class="ms-2">
-                                    <a href="{% url 'user_page' 'soli' %}" class="text-dark text-decoration-none">
+                                    <a href="{% url 'funcionario' 'soli' %}" class="text-dark text-decoration-none">
                                         <div class="d-flex justify-content-around">
-                                            <h1 class="display-2 ">{{solicitudes.count|default_if_none:"0"}}</h1>
+                                            <h1 class="display-2 ">{{solicitudes.count}}</h1>
                                             <i class="fas fa-pen-alt fa-2x my-auto me-2"></i>
                                         </div>
                                         <small >Solicitudes</small>
@@ -68,9 +48,9 @@
                         <div class="col">
                             <div class="container border rounded-2 p-2 shadow-sm">
                                 <div class="ms-2">
-                                    <a href="{% url 'user_page' 'presu' %}" class="text-dark text-decoration-none">
+                                    <a href="{% url 'funcionario' 'presu' %}" class="text-dark text-decoration-none">
                                         <div class="d-flex justify-content-around">
-                                            <h1 class="display-2">{{presupuestos.count|default:"0"}}</h1>
+                                            <h1 class="display-2">{{presupuestos.count}}</h1>
                                             <i class="fas fa-file-invoice-dollar fa-2x my-auto me-2"></i>
                                         </div>
                                         <small>Presupuestos</small>
@@ -81,9 +61,9 @@
                         <div class="col">
                             <div class="container border rounded-2 p-2 shadow-sm">
                                 <div class="ms-2">
-                                    <a href="{% url 'user_page' 'contr' %}" class="text-dark text-decoration-none">
+                                    <a href="{% url 'funcionario' 'soli' %}" class="text-dark text-decoration-none">
                                         <div class="d-flex justify-content-around">
-                                            <h1 class="display-2">{{contratos.count|default:"0"}}</h1>
+                                            <h1 class="display-2">{{contratos.count}}</h1>
                                             <i class="fas fa-file-contract fa-2x my-auto me-2"></i>
                                         </div>
                                         <small>Contratos</small>
@@ -98,54 +78,76 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th scope="col">Cliente</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Estado</th>
+                                    {% if user|is_group:"tecnico"%}
                                     <th ></th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for solicitud in solicitudes %}
-                                    <tr>
-                                        <td>{{solicitud.fecha|date:'d M Y'}}</td>
-                                        <td>{{solicitud.get_tipo_display}}</td>
-                                        <td>{{solicitud.get_estado_display}}</td>
-                                        <td><a href="{% url 'ver_solicitud' solicitud.id %}" class="btn btn-primary">Ver</a></td>
-                                    </tr>
-                                {% endfor %}
-                                
+                                <tr>
+                                    <td>{{solicitudes.0.cliente}}</td>
+                                    <td>{{solicitudes.0.fecha|date:'d M Y'}}</td>
+                                    <td>{{solicitudes.0.get_tipo_display}}</td>
+                                    <td>{{solicitudes.0.get_estado_display}}</td>
+                                    {% if user|is_group:"tecnico"%}
+                                    <td><a href="{% url 'revisar_solicitud' solicitudes.0.id%}" class="btn btn-primary">Ver</a></td>
+                                    {%endif%}
+                                </tr>
+                                <tr>
+                                    <td>{{solicitudes.1.cliente}}</td>
+                                    <td>{{solicitudes.1.fecha|date:'d M Y'}}</td>
+                                    <td>{{solicitudes.1.get_tipo_display}}</td>
+                                    <td>{{solicitudes.1.get_estado_display}}</td>
+                                    {% if user|is_group:"tecnico"%}
+                                    <td><a href="{% url 'revisar_solicitud' solicitudes.1.id%}" class="btn btn-primary">Ver</a></td>
+                                    {%endif%}
+                                </tr>
+                                <tr>
+                                    <td>{{solicitudes.2.cliente}}</td>
+                                    <td>{{solicitudes.2.fecha|date:'d M Y'}}</td>
+                                    <td>{{solicitudes.2.get_tipo_display}}</td>
+                                    <td>{{solicitudes.2.get_estado_display}}</td>
+                                    {% if user|is_group:"tecnico"%}
+                                    <td><a href="{% url 'revisar_solicitud' solicitudes.2.id%}" class="btn btn-primary">Ver</a></td>
+                                    {%endif%}
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 {% elif 'soli' in request.path %}
                 <!-- Pagina de solicitudes -->
                     
-                    <div class="container border rounded-2 my-2 shadow-sm">
-                        <div class="d-flex flex-row justify-content-between p-3">
-                            <h4>Agregar Solicitud</h4>
-                            <a href="{% url 'user_add_solicitud' %}" class="btn btn-primary">Agregar</a>
-                        </div>
-                        
-                    </div>
-                    <hr>
-                    <div class="container border rounded shadow-sm">
-                        <h5 class="mt-3">Lista de solicitudes</h5>
+                    <div class="container border rounded shadow-sm my-2">
+                        <h5 class="my-3">Lista de solicitudes</h5>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col">Id</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Estado</th>
-                                    <th ></th>
+                                    {% if user|is_group:"tecnico"%}
+                                    <th scope="col"></th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for solicitud in solicitudes %}
                                     <tr>
+                                        <td>{{solicitud.cliente}}</td>
+                                        <td>{{solicitud.id}}</td>
                                         <td>{{solicitud.fecha|date:'d M Y'}}</td>
                                         <td>{{solicitud.get_tipo_display}}</td>
                                         <td>{{solicitud.get_estado_display}}</td>
-                                        <td><a href="{% url 'ver_solicitud' solicitud.id %}" class="btn btn-primary">Ver</a></td>
+                                        {% if user|is_group:"tecnico"%}
+                                        <td><a href="{% url 'revisar_solicitud' solicitud.id%}" class="btn btn-primary">Ver</a></td>
+                                        
+                                        {%endif%}
                                     </tr>
                                 {% endfor %}
 
@@ -159,20 +161,26 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th scope="col">Cliente</th>
                                     <th scope="col">Solicitud</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Valor</th>
-                                    <th></th>
+                                    <th scope="col"></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for presupuesto in presupuestos %}
                                     <tr>
-                                        <td>{{presupuesto.id}}</td>
+                                        <td>{{presupuesto.solicitud.cliente}}</td>
+                                        <td>{{presupuesto.solicitud.id}}</td>
                                         <td>{{presupuesto.solicitud.get_tipo_display}}</td>
                                         <td>$ {{presupuesto.valor}}</td>
-                                        <td><a href="{% url 'ver_solicitud' presupuesto.solicitud.id %}" class="btn btn-primary">Ver</a></td>
-
+                                        {% if user|is_group:"tecnico"%}
+                                            <td><a href="{% url 'presupuesto_inicial' presupuesto.solicitud.id%}" class="btn btn-primary">Ver</a></td>
+                                        {% elif user|is_group:"abogado"%}
+                                            <td><a href="{% url 'contrato_page' presupuesto.id%}" class="btn btn-primary">Ver</a></td>
+                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -185,22 +193,28 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th scope="col">Cliente</th>
                                 <th scope="col">Solicitud</th>
                                 <th scope="col">Tipo</th>
                                 <th scope="col">Contrato</th>
                                 <th scope="col">Estado</th>
-                                <th></th>
+                                {% if user|is_group:"abogado"%}
+                                <th scope="col"></th>
+                                {% endif%}
                             </tr>
                         </thead>
                         <tbody>
                             {% for contrato in contratos %}
                                 <tr>
-                                    <td>{{contrato.id}}</td>
+                                    <td>{{contrato.presupuesto.solicitud.cliente}}</td>
+                                    <td>{{contrato.presupuesto.solicitud.id}}</td>
                                     <td>{{contrato.presupuesto.solicitud.get_tipo_display}}</td>
-                                    <td><a href="{{contrato.archivo.url}}">Descargar contrato</a></td>
-                                    <td>{{contrato.get_estado_display}}</td>
-                                    <td><a href="{% url 'ver_solicitud' contrato.presupuesto.solicitud.id %}" class="btn btn-primary">Ver</a></td>
-                                
+                                    <td><a href="{{contrato.archivo.url}}">Descargar Contrato</a></td>
+                                    <td>{{contrato.get_estado_display}}</td> 
+                                    {% if user|is_group:"abogado"%}
+                                        <td><a href="{% url 'contrato_page' contrato.presupuesto.id%}" class="btn btn-primary">Ver</a></td>
+                                        
+                                    {% endif %}               
                                 </tr>
                             {% endfor %}
                         </tbody>

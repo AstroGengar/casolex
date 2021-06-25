@@ -1,0 +1,39 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <h1 class="display-4 my-4">Solicitudes con presupuesto</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Rut</th>
+                    <th>Solicitud</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Presupuesto</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for presupuesto in presupuestos %}
+                <tr>
+                    <th scope="">{{presupuesto.solicitud.cliente.nombre}} {{presupuesto.solicitud.cliente.apellido_paterno}} {{presupuesto.solicitud.cliente.apellido_materno}}</th>
+                    <td>{{presupuesto.solicitud.cliente.rut}}</td>
+                    <td>{{presupuesto.solicitud.id}}</td>
+                    <td>{{presupuesto.solicitud.fecha|date:'d M Y'}}</td>
+                    <td>{{presupuesto.solicitud.get_tipo_display}}</td>
+                    <td>$ {{presupuesto.valor}}</td>
+                    <td><a href="{% url 'contrato_page' presupuesto.id%}" class="btn btn-primary">Contrato</a></td>
+                </tr>
+                {% endfor %}
+                {{contrato}}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+{% endblock %}

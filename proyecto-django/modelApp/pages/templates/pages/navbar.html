@@ -1,6 +1,6 @@
 {% load poll_extras %}
 
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header animated fadeInUp">
             <a class="navbar-brand display-5" href="{% url 'home' %}"><h1 class="fw-light my-auto">LEX</h1></a>
@@ -9,7 +9,7 @@
             <i class="fas fa-bars text-white"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto nav-list">
+            <ul class="navbar-nav ms-auto nav-list">
                 <li class="nav-item nav-item nav-list-item">
                     <a href="{% url 'home' %}" class="nav-link">Inicio</a>
                 </li>
@@ -19,23 +19,25 @@
                 {% if user.is_authenticated %}
                         {% if user|is_group:"cliente"%}
                                 <li class="nav-item nav-list-item">
-                                    <a href="{% url 'user_page' %}" class="nav-link">Solicitud</a>
+                                    <a href="{% url 'user_page' 'inicio' %}" class="nav-link">Perfil</a>
                                 </li>
-                                <li class="nav-item nav-list-item">
-                                    <a href="{% url 'pagos_page' %}" class="nav-link">Pagos</a>
-                                </li>
+                                                                
                         {% elif user|is_group:"tecnico"%}
                             <li class="nav-item nav-list-item">
-                                <a href="{% url 'listar_solicitudes' %}" class="nav-link">Solicitudes</a>
+                                <a href="{% url 'funcionario' 'inicio'%}" class="nav-link">Perfil</a>
                             </li>
-                            
+
+                        {% elif user|is_group:"abogado"%}
+                            <li class="nav-item nav-list-item">
+                                <a href="{% url 'funcionario' 'inicio'%}" class="nav-link">Perfil</a>
+                            </li>
                         {% endif %}
                     <li class="nav-item nav-list-item">
                         <a href="{% url 'logout' %}" class="nav-link">Cerra Sessión</a>
                     </li>
                 {% else %}
                     <li class="nav-item nav-list-item">
-                        <a href="{% url 'login' %}" class="nav-link">Iniciar Sessión</a>
+                        <a href="{% url 'login' %}" class="nav-link">Iniciar Sección</a>
                     </li>
                     <li class="nav-item nav-list-item">
                         <a href="{% url 'register_page' %}" class="nav-link">Registrarse</a>

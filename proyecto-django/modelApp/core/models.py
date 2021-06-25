@@ -51,11 +51,14 @@ class Solicitud(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='cliente')
     tipo = models.CharField(max_length=2, choices=TIPO_SOLICITUD, default=DEFENSA)
     fecha = models.DateTimeField(auto_now_add=True, null=True)
-    descripcion = models.TextField(null=False, default='lorem')
+    descripcion = models.TextField(null=False, default='')
     estado = models.CharField(max_length=2, choices=ESTADO_CONSULTA, default=REVISION)
 
     def __str__(self):
         return str(self.tipo + ' ' + self.cliente.rut + ' ' + self.estado)
+
+    class Meta:
+        verbose_name = 'Solicitude'
 
 class PresupuestoCliente(models.Model):
     solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, related_name='solicitud')
@@ -64,6 +67,8 @@ class PresupuestoCliente(models.Model):
     def __str__(self):
         return str(self.solicitud.cliente.rut + ' | ' + self.solicitud.tipo + ' | ' + self.valor)
 
+    class Meta:
+        verbose_name = 'Presupuesto'
 
 class ContratoCliente(models.Model):
      
@@ -80,3 +85,21 @@ class ContratoCliente(models.Model):
     presupuesto = models.ForeignKey(PresupuestoCliente, on_delete=models.CASCADE, related_name='presupuesto')
     archivo = models.FileField()
     estado = models.CharField(max_length=2, choices=CONTRATO_ESTADO, default=REVISION)
+
+    def __str__(self):
+        return str(self.presupuesto.solicitud.cliente.rut + ' | ' + self.presupuesto.solicitud.tipo + ' | ' + self.estado)
+
+    class Meta:
+        verbose_name = 'Contrato'
+
+class NotificacionCliente(models.Model):
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    informacion = models.CharField(max_length=50)
+    fecha = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return str(self.cliente.rut)
+
+    class Meta:
+        verbose_name = 'Notificacione'
+    

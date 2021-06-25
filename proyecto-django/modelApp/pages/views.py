@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from core.decorators import *
+from django.db.models import Q
 
 
 # Create your views here.
@@ -31,12 +32,12 @@ def register_page(request):
         form_datos = ClienteForm(request.POST)
         if form_cliente.is_valid():
             user = form_cliente.save()
+            print(user.email)
             # obtener datos extra
             apellido_paterno = request.POST.get('apellido_paterno')
             apellido_materno = request.POST.get('apellido_materno')
             numero = request.POST.get('numero')
             rut = request.POST.get('rut')
-            user_name = form_cliente.cleaned_data.get('username')
                
             group = Group.objects.get(name='cliente')
             user.groups.add(group)
@@ -50,7 +51,7 @@ def register_page(request):
                 rut=rut,
             )
 
-            messages.success(request, 'Cuenta creada exitosamente '+ user_name)
+            messages.success(request, 'Cuenta creada exitosamente')
     
     
     context = {'form': form, 'formCliente': form_cliente}
@@ -79,12 +80,87 @@ def logoutUser(request):
 # Parte de los clientes
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['cliente'])
-def user_page(request):
+def user_page(request, action):
     # Main page de los clientes
-    solicitudes = request.user.cliente.cliente.all()
-    print(solicitudes)
-    context = {'solicitudes': solicitudes}
+    # Agregar: Presupuesto, contratos, causas
+    context = {}
+    user = request.user
+    cliente = Cliente.objects.get(usuario=user)
+    notificacion = NotificacionCliente.objects.all().filter(cliente=cliente)
+
+    context['notifiaciones'] = notificacion
+
+    if action == 'soli':
+        context['nombre'] = 'Solicitud'
+        try:
+            solicitud = Solicitud.objects.all().filter(cliente=cliente)
+            context["solicitudes"] = solicitud
+
+        except:
+            context["solicitudes"] = None
+
+    elif action == 'presu':
+        context['nombre'] = 'Presupuestos'
+        try:
+            presupuesto = PresupuestoCliente.objects.filter(Q(solicitud__cliente = cliente))
+            context['presupuestos'] = presupuesto
+        except:
+            context['presupuestos'] = None
+    elif action == 'contr':
+        context['nombre'] = 'Contratos'
+        try:
+            contrato = ContratoCliente.objects.filter(Q(presupuesto__solicitud__cliente = cliente))
+            context["contratos"] = contrato
+        except:
+            context["contratos"] = None
+    elif action == 'inicio':
+        context['nombre'] = 'Inicio'
+        try:
+            solicitud = Solicitud.objects.all().filter(cliente=cliente)
+            context["solicitudes"] = solicitud
+
+        except:
+            context["solicitudes"] = None
+        try:
+            presupuesto = PresupuestoCliente.objects.filter(Q(solicitud__cliente = cliente))
+            context['presupuestos'] = presupuesto
+        except:
+            context['presupuestos'] = None
+        try:
+            contrato = ContratoCliente.objects.filter(Q(presupuesto__solicitud__cliente = cliente))
+            context["contratos"] = contrato
+        except:
+            context["contratos"] = None
+    elif action == 'caus':
+        context['nombre'] = 'Causas'
+
+
     return render(request, 'pages/user.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['cliente'])
+def ver_solicitud(request, pk):
+    solicitud = Solicitud.objects.get(id=pk)
+    context = {'solicitud': solicitud}
+    try:
+        presupuesto = PresupuestoCliente.objects.get(solicitud=solicitud)
+        context['presupuesto'] = presupuesto
+    except:
+        context['presupuesto'] = 'sin presupuesto'
+
+    try:
+        contrato = ContratoCliente.objects.get(presupuesto=presupuesto)
+        context['contrato'] = contrato
+        if request.method == 'POST':
+            contrato.estado = 'FM'
+            contrato.save()
+
+        print(contrato.estado)
+    except:
+         context['contrato'] = 'sin contrato'
+
+    return render(request, 'pages/ver_solicitud.html', context)
+
 
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['cliente'])
@@ -117,9 +193,34 @@ def pagos_page(request):
     return render(request, 'pages/pagos.html', context)
 
 
-# Parte de Admin
+# Parte de Tecnico
 @login_required(login_url='login')
-@usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado', 'tecnico'])
+def funcionario(request, action):
+    context = {}
+    solicitud = Solicitud.objects.all()
+    presupuesto = PresupuestoCliente.objects.all()
+    contrato = ContratoCliente.objects.all()
+
+    context["solicitudes"] = solicitud
+    context['presupuestos'] = presupuesto
+    context["contratos"] = contrato
+    
+    if action == 'inicio':
+        context['nombre'] = 'Inicio'
+    elif action == 'soli':
+        context['nombre'] = 'Solicitudes'
+    elif action == 'presu':
+        context['nombre'] = 'Presupuestos'
+    elif action == 'contr':
+        context['nombre'] = 'Contratos'
+    elif action == 'caus':
+        context['nombre'] = 'Causas'
+
+    return render(request, 'pages/funcionario.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado', 'tecnico'])
 def listar_solicitudes(request):
 
     solicitudes = Solicitud.objects.all()
@@ -149,7 +250,7 @@ def revisar_solicitud(request, pk):
 
 
 @login_required(login_url='login')
-@usuarios_permitiado(roles_permitidos=['admin', 'abogados', 'tecnico'])
+@usuarios_permitiado(roles_permitidos=['admin', 'tecnico'])
 def presupuesto_inicial(request, pk):
     solicitud = Solicitud.objects.get(id=pk)
     form = PresupuestoForm()
@@ -160,7 +261,11 @@ def presupuesto_inicial(request, pk):
             form = PresupuestoForm(request.POST, instance=presupuesto)
             if form.is_valid():
                 form.instance.solicitud = solicitud
-                form.save()
+                datos = form.save()
+                NotificacionCliente.objects.create(
+                    cliente = datos.solicitud.cliente,
+                    informacion = 'Se ha modificado presupuesto'
+                )
                 messages.info(request, 'Presupuesto creado con exito')
             else:
                 messages.error(request, 'Presupuesto rechazado')
@@ -170,7 +275,11 @@ def presupuesto_inicial(request, pk):
             form = PresupuestoForm(request.POST)
             if form.is_valid():
                 form.instance.solicitud = solicitud
-                form.save()
+                datos = form.save()
+                NotificacionCliente.objects.create(
+                    cliente = datos.solicitud.cliente,
+                    informacion = 'Se ha creado presupuesto'
+                )
                 messages.info(request, 'Presupuesto creado con exito')
             else:
                 messages.error(request, 'Presupuesto rechazado')
@@ -180,19 +289,38 @@ def presupuesto_inicial(request, pk):
     context = {'form': form}
     return render(request, 'pages/presupuesto.html', context)
 
+# Parte de abogados
 @login_required(login_url='login')
-@usuarios_permitiado(roles_permitidos=['admin', 'abogados'])
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
+def listar_presupuesto(request):
+    presupuestos = PresupuestoCliente.objects.all()
+
+
+    context = {'presupuestos': presupuestos}
+    return render(request, 'pages/listar_presupuestos.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
 def contrato_page(request, pk):
     presupuesto = PresupuestoCliente.objects.get(id=pk)
     
     form = ContratoForm()
+
     try:
         contrato = ContratoCliente.objects.get(presupuesto = presupuesto)
         form = ContratoForm(instance=contrato)
         if request.method == 'POST':
-            form = ContratoForm(request.POST, instance=contrato)
+            form = ContratoForm(request.POST, request.FILES, instance=contrato)
             if form.is_valid():
-                form.save()
+                datos = form.save()
+                NotificacionCliente.objects.create(
+                    cliente = datos.presupuesto.solicitud.cliente,
+                    informacion = 'Contrato modificado'
+                )
+
+                messages.info(request, 'Aceptado')
+            else:
+                messages.error(request, 'Rechazado')
     except:
         contrato = 'no hay contrato'
         if request.method == 'POST':
@@ -200,11 +328,15 @@ def contrato_page(request, pk):
             form.instance.presupuesto = presupuesto
 
             if form.is_valid():
-                form.save()
+                datos = form.save()
+                NotificacionCliente.objects.create(
+                    cliente = datos.presupuesto.solicitud.cliente,
+                    informacion = 'Contrato creado'
+                )
                 messages.info(request, 'Aceptado')
 
             else:
-                messages.error(request, 'rechazado')
+                messages.error(request, 'Rechazado')
 
         
     context = {'presupuesto': presupuesto, 'contrato': contrato, 'form': form}

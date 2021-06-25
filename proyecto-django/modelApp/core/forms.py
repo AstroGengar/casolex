@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 #code
 
+
 class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
