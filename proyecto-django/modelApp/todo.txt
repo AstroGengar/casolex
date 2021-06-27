@@ -1,0 +1,19 @@
+1- El sistema debe permitir al cliente mantener actualizada 
+la información de su cuenta, tales como correo electrónico, 
+dirección y otros
+
+2 - (Parte causas ) Para todos los abogados, el sistema debe
+permitir agregar diligencias y documentación asociada a las
+causas y contratos. === 
+
+3- Para el técnico jurídico, el sistema debe permitir ingresar 
+los pagos realizados por los clientes en la oficina de abogados,
+ como también los recibidos mediante transferencia bancaria. 
+
+4- Ingresar pagos cliente
+
+5- Para el abogado que cumple el rol de administrador, 
+el sistema debe permitir generar un reporte de todos los 
+ingresos mensuales y anuales, tanto por cuotas de pagos 
+de clientes normales como por pagos mensuales de clientes 
+por convenio.

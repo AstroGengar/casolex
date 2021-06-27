@@ -201,10 +201,12 @@ def funcionario(request, action):
     solicitud = Solicitud.objects.all()
     presupuesto = PresupuestoCliente.objects.all()
     contrato = ContratoCliente.objects.all()
+    causas = Causa.objects.all()
 
     context["solicitudes"] = solicitud
     context['presupuestos'] = presupuesto
     context["contratos"] = contrato
+    context['causas'] = causas
     
     if action == 'inicio':
         context['nombre'] = 'Inicio'
@@ -317,7 +319,9 @@ def contrato_page(request, pk):
                     cliente = datos.presupuesto.solicitud.cliente,
                     informacion = 'Contrato modificado'
                 )
-
+                Causa.objects.create(
+                    contrato = datos
+                )
                 messages.info(request, 'Aceptado')
             else:
                 messages.error(request, 'Rechazado')
@@ -332,6 +336,9 @@ def contrato_page(request, pk):
                 NotificacionCliente.objects.create(
                     cliente = datos.presupuesto.solicitud.cliente,
                     informacion = 'Contrato creado'
+                )
+                Causa.objects.create(
+                    contrato = datos
                 )
                 messages.info(request, 'Aceptado')
 

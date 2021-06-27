@@ -21,6 +21,9 @@
                     <a href="{% url 'funcionario' 'contr' %}" class="text-decoration-none"><h4 class="text-white">Contratos</h4></a>
                     <a href="{% url 'funcionario' 'caus' %}" class="text-decoration-none"><h4 class="text-white">Causas</h4></a>
                 </div>
+                <div class="d-flex justify-content-end pb-4 me-4">
+                    <a href="{% url 'logout' %}" class="text-decoration-none text-white ">Cerrar Sessión <i class="fas fa-sign-out-alt fa-lg"></i></a>
+                </div>
             </div>
         </div>
         <div class="col col-lg-10">
@@ -222,7 +225,30 @@
                 </div>
                 {% elif 'caus' in request.path %}
                 <!-- Página de causas -->
-                    <p>Causas</p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Solicitud</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Juzgado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for causa in causas%}
+                                <tr>
+                                    <td>{{causa.contrato.presupuesto.solicitud.cliente}}</td>
+                                    <td>{{causa.contrato.presupuesto.solicitud.id}}</td>
+                                    <td>{{causa.fecha|date:'d M Y'}}</td>
+                                    <td>{{causa.get_etapa_display}}</td>
+                                    <td>{{causa.tribunal}}</td>
+                                    <td><a href="{% url 'revisar_solicitud' causa.contrato.presupuesto.solicitud.id%}" class="btn btn-primary">Ver</a></td>
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
                 {% else %}
                     <h2>nada</h2>
                 {% endif%}

@@ -92,10 +92,42 @@ class ContratoCliente(models.Model):
     class Meta:
         verbose_name = 'Contrato'
 
+class Causa(models.Model):
+    INICIO = 'IN'
+    PREPARACION = 'PR'
+    JUICIO = 'JC'
+    APELACION = 'AP'
+    PRUEBA = 'PB'
+    CITACION = 'CT'
+    EXHORTO = 'EH'
+    IMPUNE = 'IP'
+
+    CAUSA_ESTADO = [
+        (INICIO, 'Inicio'),
+        (PREPARACION, 'Preparación'),
+        (JUICIO, 'Juicio'),
+        (APELACION, 'Apelación'),
+        (PRUEBA,'Prueba'),
+        (CITACION, 'Citación'),
+        (EXHORTO, 'Exhorto'),
+        (IMPUNE, 'Impune'),
+    ]
+
+    contrato = models.ForeignKey(ContratoCliente, on_delete=models.CASCADE, related_name='contrato')
+    fecha = models.DateTimeField(auto_now_add=True, null=True)
+    tribunal = models.CharField(max_length=200, default='1º Juzgado Civil de Santiago')
+    etapa = models.CharField(max_length=2, choices=CAUSA_ESTADO, default=INICIO)
+
+    def __str__(self):
+        return str(self.contrato.presupuesto.solicitud.cliente.nombre + ' ' + self.etapa)
+
+    
+
 class NotificacionCliente(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     informacion = models.CharField(max_length=50)
     fecha = models.DateTimeField(auto_now_add=True, null=True)
+    
 
     def __str__(self):
         return str(self.cliente.rut)
