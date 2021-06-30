@@ -58,6 +58,11 @@ class PresupuestoForm(forms.ModelForm):
         model = PresupuestoCliente
         fields = ['valor']
 
+class PresupuestoTecForm(forms.ModelForm):
+    class Meta:
+        model = PresupuestoCliente
+        fields = ['solicitud', 'valor']
+
 
 class ContratoForm(forms.ModelForm):
     class Meta:

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 def usuario_identificado(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect('home')
+            return ct('home')
         else: 
             return view_func(request, *args, **kwargs)
 

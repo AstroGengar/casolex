@@ -22,6 +22,7 @@ urlpatterns = [
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
     path('revisar-solicitud/<str:pk>/', revisar_solicitud, name='revisar_solicitud'),
     path('presupuesto-inicial/<str:pk>', presupuesto_inicial, name='presupuesto_inicial'),   
+    path('add-presupuesto/', add_presupuesto_page, name='add_presupuesto_pages'),
     path('listar-presupuestos/', listar_presupuesto, name='listar_presupuesto'),
     path('contrato/<str:pk>', contrato_page, name='contrato_page'),
     

@@ -63,6 +63,7 @@ class Solicitud(models.Model):
 class PresupuestoCliente(models.Model):
     solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, related_name='solicitud')
     valor = models.CharField(null=False, default='0', max_length=9)
+    pagado = models.BooleanField(default=False, null=True, blank=False)
 
     def __str__(self):
         return str(self.solicitud.cliente.rut + ' | ' + self.solicitud.tipo + ' | ' + self.valor)

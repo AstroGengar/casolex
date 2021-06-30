@@ -1,0 +1,32 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="container border rounded shadow mt-4">
+            <div class="d-flex flex-column m-4">
+                {% csrf_token %}
+                <h1>Agregar Presupuesto</h1>
+                <label for="{{form.solicitud.name}}">Solicitud</label>
+                {{form.solicitud}}
+                <label for="{{form.valor.name}}">Valor</label>
+                {{form.valor}}
+                <input type="submit" value="Guardar" class="btn btn-primary my-2">
+            </div>
+        </div>
+        {% for message in messages%}
+            {% if message.tags == 'success'%}
+            <div class="alert alert-success my-3" role="alert">
+                {{message}}
+            </div>
+            {% else %}
+            <div class="alert alert-danger my-3" role="alert">
+                {{message}}
+            </div>
+            {% endif%}                
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

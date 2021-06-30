@@ -155,7 +155,6 @@ def ver_solicitud(request, pk):
             contrato.estado = 'FM'
             contrato.save()
 
-        print(contrato.estado)
     except:
          context['contrato'] = 'sin contrato'
 
@@ -291,6 +290,21 @@ def presupuesto_inicial(request, pk):
     context = {'form': form}
     return render(request, 'pages/presupuesto.html', context)
 
+def add_presupuesto_page(request):
+    context = {}
+    form = PresupuestoTecForm()
+    context['form'] = form
+
+    if request.method == 'POST':
+        form = PresupuestoTecForm(request.POST)
+        if form.is_valid():
+            form.save
+            messages.success(request,'Presupuesto guardado')
+        else:
+            messages.error(request, 'El presupuesto no puedo ser guardardo')
+
+    return render(request, 'pages/add-solicitud.html', context)
+
 # Parte de abogados
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
@@ -305,9 +319,7 @@ def listar_presupuesto(request):
 @usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
 def contrato_page(request, pk):
     presupuesto = PresupuestoCliente.objects.get(id=pk)
-    
     form = ContratoForm()
-
     try:
         contrato = ContratoCliente.objects.get(presupuesto = presupuesto)
         form = ContratoForm(instance=contrato)

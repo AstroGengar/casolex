@@ -16,7 +16,9 @@
                     <a href="{% url 'user_page' 'presu' %}" class="text-decoration-none"><h4 class="text-white">Presupuestos</h4></a>
                     <a href="{% url 'user_page' 'contr' %}" class="text-decoration-none"><h4 class="text-white">Contratos</h4></a>
                     <a href="{% url 'user_page' 'caus' %}" class="text-decoration-none"><h4 class="text-white">Causas</h4></a>
-                    
+                </div>
+                <div class="d-flex justify-content-end pb-4 me-4">
+                    <a href="{% url 'logout' %}" class="text-decoration-none text-white ">Cerrar Sessión <i class="fas fa-sign-out-alt fa-lg"></i></a>
                 </div>
             </div>
         </div>
@@ -136,6 +138,7 @@
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Estado</th>
+                                    
                                     <th ></th>
                                 </tr>
                             </thead>
@@ -162,6 +165,7 @@
                                     <th scope="col">Solicitud</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Valor</th>
+                                    <th scope="col">Pagado</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -171,6 +175,7 @@
                                         <td>{{presupuesto.id}}</td>
                                         <td>{{presupuesto.solicitud.get_tipo_display}}</td>
                                         <td>$ {{presupuesto.valor}}</td>
+                                        <td>{{presupuesto.pagado}}</td>
                                         <td><a href="{% url 'ver_solicitud' presupuesto.solicitud.id %}" class="btn btn-primary">Ver</a></td>
 
                                     </tr>

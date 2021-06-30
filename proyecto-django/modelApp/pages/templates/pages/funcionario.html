@@ -159,8 +159,17 @@
                     </div>
                 {% elif 'presu' in request.path%}
                 <!-- Pagina de presupuesto -->
+                    <div class="container-fluid border rounded p-2 bg-primary my-2">
+                        <div class="container">
+                            <a href="{% url 'add_presupuesto_pages'%}" class="d-flex flex-row text-decoration-none text-white my-auto">
+                                <i class="fas fa-plus-circle my-auto me-2"></i> 
+                                <h5 class="my-auto">Agregar Presupuesto</h5>
+                            </a>
+                        </div>
+                    </div>
                     <div class="container border rounded shadow-sm my-3">
-                        <h5 class="my-3">Listado de solicitudes</h5>
+                        <h3 class="my-3">Listado de solicitudes con presupuestos</h3>
+
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -168,6 +177,7 @@
                                     <th scope="col">Solicitud</th>
                                     <th scope="col">Tipo</th>
                                     <th scope="col">Valor</th>
+                                    <th scope="col">Pagado</th>
                                     <th scope="col"></th>
 
                                 </tr>
@@ -179,6 +189,7 @@
                                         <td>{{presupuesto.solicitud.id}}</td>
                                         <td>{{presupuesto.solicitud.get_tipo_display}}</td>
                                         <td>$ {{presupuesto.valor}}</td>
+                                        <td>{{presupuesto.pagado}}</td>
                                         {% if user|is_group:"tecnico"%}
                                             <td><a href="{% url 'presupuesto_inicial' presupuesto.solicitud.id%}" class="btn btn-primary">Ver</a></td>
                                         {% elif user|is_group:"abogado"%}

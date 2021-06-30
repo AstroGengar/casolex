@@ -24,24 +24,26 @@
                         {% if user|is_group:"cliente"%}
                             <div class="card-body mx-auto my-auto">
                                 <a href="{% url 'user_page' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
-                                    <p class="">Iniciar</p>
+                                    <p class="">Perfil</p>
                                 </a> 
                             </div>
                         {% elif user|is_group:"tecnico"%}
                             <div class="card-body mx-auto my-auto">
                                 <a href="{% url 'funcionario' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
-                                    <p class="">Iniciar</p>
+                                    <p class="">Perfil</p>
                                 </a> 
                             </div>
                         {% elif user|is_group:"abogado"%}
                             <div class="card-body mx-auto my-auto">
                                 <a href="{% url 'funcionario' 'inicio'%}" class="text-dark text-decoration-none stretched-link">
-                                    <p class="">Iniciar</p>
+                                    <p class="">Perfil</p>
                                 </a> 
                             </div>
                         {% else %}
                             <div class="card-body mx-auto my-auto">
-                                <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link"><p class="">Iniciar</p></a> 
+                                <a href="{% url 'login' %}" class="text-dark text-decoration-none stretched-link">
+                                    <p class="">Iniciar</p>
+                                </a> 
                             </div>
                         {% endif %}
                     {% else %}
