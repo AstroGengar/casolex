@@ -1,5 +1,6 @@
 import django
 from django.contrib.auth import authenticate
+from django.db.models.aggregates import Sum
 from django.http import request
 from django.shortcuts import render, redirect
 from core.models import *
@@ -160,6 +161,28 @@ def ver_solicitud(request, pk):
 
     return render(request, 'pages/ver_solicitud.html', context)
 
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['cliente'])
+def pagar_page(request, pk):
+    context = {}
+    form = PagarForm()
+    presupuesto = PresupuestoCliente.objects.get(id=pk)
+    context['form'] = form
+
+    if request.method == 'POST':
+        form = PagarForm(request.POST)
+        if form.is_valid():
+            form.instance.presupuesto = presupuesto
+            form.save()
+            PresupuestoCliente.objects.filter(id=pk).update(pagado=True)
+            messages.success(request, 'Presupuesto pagado con exito')
+        else:
+            messages.error(request, 'Presupuesto no pudo ser pagado')
+
+
+
+    return render(request,'pages/pago.html', context)
+
 
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['cliente'])
@@ -185,11 +208,6 @@ def user_add_solicitud(request):
     context = {'forms': forms}
     return render(request, 'pages/ingresar_solicitud.html', context)
     
-@login_required(login_url='login')
-@usuarios_permitiado(roles_permitidos=['cliente'])
-def pagos_page(request):
-    context = {}
-    return render(request, 'pages/pagos.html', context)
 
 
 # Parte de Tecnico
@@ -306,14 +324,6 @@ def add_presupuesto_page(request):
     return render(request, 'pages/add-solicitud.html', context)
 
 # Parte de abogados
-@login_required(login_url='login')
-@usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
-def listar_presupuesto(request):
-    presupuestos = PresupuestoCliente.objects.all()
-
-
-    context = {'presupuestos': presupuestos}
-    return render(request, 'pages/listar_presupuestos.html', context)
 
 @login_required(login_url='login')
 @usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
@@ -352,7 +362,7 @@ def contrato_page(request, pk):
                 Causa.objects.create(
                     contrato = datos
                 )
-                messages.info(request, 'Aceptado')
+                messages.success(request, 'Aceptado')
 
             else:
                 messages.error(request, 'Rechazado')
@@ -360,3 +370,53 @@ def contrato_page(request, pk):
         
     context = {'presupuesto': presupuesto, 'contrato': contrato, 'form': form}
     return render(request, 'pages/contrato.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
+def add_contrato(request):
+    form = ContratoAbogadoForm()
+    if request.method == 'POST':
+        form = ContratoAbogadoForm(request.POST, request.FILES)
+        if form.is_valid():
+            datos = form.save()
+            NotificacionCliente.objects.create(
+                cliente = datos.presupuesto.solicitud.cliente,
+                informacion = 'Contrato creado'
+            )
+            Causa.objects.create(
+                contrato = datos
+            )
+            messages.success(request, 'Contrato creado con exito')
+        else:
+            messages.error(request, 'El contrato no pudo ser creado')
+
+    context = {'form': form}
+    return render(request, 'pages/add-contrato.html', context)
+
+@login_required(login_url='login')
+@usuarios_permitiado(roles_permitidos=['admin', 'abogado'])
+def ver_causa(request, pk):
+    context = {}
+    causa = Causa.objects.get(id=pk)
+    context['causa'] = causa
+    form = CausaForm(instance=causa)
+    context['form'] = form
+
+    if request.method == 'POST':
+        form = CausaForm(request.POST, instance=causa)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Se ha guardado la causa')
+        else:
+            messages.error(request,'No se pudo guardar')
+
+    return render(request, 'pages/causa.html', context)
+
+def ver_ingresos(request):
+    context = {}
+    pagados = PresupuestoCliente.objects.all().filter(pagado=True)
+    total = sum(pagados.values_list('valor', flat=True))
+    context['total'] =  total
+    context['pagos'] = pagados
+
+    return render(request, 'pages/ingresos.html', context)

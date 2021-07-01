@@ -58,6 +58,14 @@ class PresupuestoForm(forms.ModelForm):
         model = PresupuestoCliente
         fields = ['valor']
 
+class PagarForm(forms.ModelForm):
+    class Meta:
+        model = PagoCliente
+        fields = ['metodo', 'numero_tarjeta', 'exp']
+        widgets = {
+            'exp': forms.SelectDateWidget
+        }
+
 class PresupuestoTecForm(forms.ModelForm):
     class Meta:
         model = PresupuestoCliente
@@ -67,4 +75,14 @@ class PresupuestoTecForm(forms.ModelForm):
 class ContratoForm(forms.ModelForm):
     class Meta:
         model = ContratoCliente
-        fields = ['archivo', 'estado']
+        fields = ['archivo']
+
+class ContratoAbogadoForm(forms.ModelForm):
+    class Meta:
+        model =ContratoCliente
+        fields = ['presupuesto', 'archivo']
+
+class CausaForm(forms.ModelForm):
+    class Meta:
+        model = Causa
+        fields = ['tribunal', 'etapa']

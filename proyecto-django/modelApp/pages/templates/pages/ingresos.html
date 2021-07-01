@@ -1,0 +1,30 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="container border rounded shadow my-2">
+            <h1 class="display-3">Ingresos de pagos</h1>
+            <h3>Total Ingresos: <h3 class="text-secondary">${{total}}</h3></h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Pago</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for pago in pagos%}
+                    <tr>
+                        <td>{{pago.solicitud.fecha|date:'d M Y'}}</td>
+                        <td>$ {{pago.valor}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+{% endblock %}

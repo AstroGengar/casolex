@@ -20,6 +20,10 @@
                     <a href="{% url 'funcionario' 'presu' %}" class="text-decoration-none"><h4 class="text-white">Presupuestos</h4></a>
                     <a href="{% url 'funcionario' 'contr' %}" class="text-decoration-none"><h4 class="text-white">Contratos</h4></a>
                     <a href="{% url 'funcionario' 'caus' %}" class="text-decoration-none"><h4 class="text-white">Causas</h4></a>
+                    {% if user|is_group:"abogado"%}
+                    <a href="{% url 'ver_ingresos' %}" class="text-decoration-none"><h4 class="text-white">Ingresos</h4></a>
+
+                    {%endif%}
                 </div>
                 <div class="d-flex justify-content-end pb-4 me-4">
                     <a href="{% url 'logout' %}" class="text-decoration-none text-white ">Cerrar Sessión <i class="fas fa-sign-out-alt fa-lg"></i></a>
@@ -159,6 +163,7 @@
                     </div>
                 {% elif 'presu' in request.path%}
                 <!-- Pagina de presupuesto -->
+                    {% if user|is_group:"tecnico"%}
                     <div class="container-fluid border rounded p-2 bg-primary my-2">
                         <div class="container">
                             <a href="{% url 'add_presupuesto_pages'%}" class="d-flex flex-row text-decoration-none text-white my-auto">
@@ -167,6 +172,8 @@
                             </a>
                         </div>
                     </div>
+                    {%else%}
+                    {%endif%}
                     <div class="container border rounded shadow-sm my-3">
                         <h3 class="my-3">Listado de solicitudes con presupuestos</h3>
 
@@ -202,6 +209,11 @@
                     </div>
                 {% elif 'contr' in request.path %}
                 <!-- Página de contratos -->
+                {% if user|is_group:"abogado"%}
+                <div class="container border rounded bg-primary p-2">
+                    <a href="{%url 'add_contrato'%}" class="text-white "><i class="fas fa-plus-circle my-auto me-2"></i>Agregar contrato</a>
+                </div>
+                {%endif%}
                 <div class="container border rounded shadow-sm my-3">
                     <h5 class="my-3">Listado de contratos</h5>
                     <table class="table table-striped">
@@ -225,10 +237,7 @@
                                     <td>{{contrato.presupuesto.solicitud.get_tipo_display}}</td>
                                     <td><a href="{{contrato.archivo.url}}">Descargar Contrato</a></td>
                                     <td>{{contrato.get_estado_display}}</td> 
-                                    {% if user|is_group:"abogado"%}
-                                        <td><a href="{% url 'contrato_page' contrato.presupuesto.id%}" class="btn btn-primary">Ver</a></td>
-                                        
-                                    {% endif %}               
+                                                 
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -255,7 +264,7 @@
                                     <td>{{causa.fecha|date:'d M Y'}}</td>
                                     <td>{{causa.get_etapa_display}}</td>
                                     <td>{{causa.tribunal}}</td>
-                                    <td><a href="{% url 'revisar_solicitud' causa.contrato.presupuesto.solicitud.id%}" class="btn btn-primary">Ver</a></td>
+                                    <td><a href="{% url 'ver_causa' causa.id%}" class="btn btn-primary">Ver</a></td>
                                 </tr>
                             {%endfor%}
                         </tbody>

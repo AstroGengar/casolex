@@ -93,16 +93,23 @@
                     <div class="accordion-body">
                         <div class="container">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="container mx-auto">
                                         <h3>Valor</h3>
                                         {% if presupuesto == 'sin presupuesto' %}
                                             <h3 class="text-secondary">Sin presupuesto</h3>
                                         {% else %}
-                                            <h4 class="text-secondary">$ {{presupuesto.valor}}</h4>
+                                            {% if presupuesto.pagado == False%}
+                                            <h4 class="text-secondary ">$ {{presupuesto.valor}}</h4>
+                                            <a href="{% url 'pagar_page' presupuesto.id %}" class="btn btn-primary">Pagar</a>
+                                            {%else%}
+                                            <h3 class="text-secondary">$ {{presupuesto.valor}}</h3>
+                                            <h4>Presupuesto pagado</h4>
+                                            {%endif%}
                                         {% endif %}
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -143,6 +150,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="container">
+                                        
                                         <h3>Firmar Contrato</h3>
                                         <h4 class="text-secondary">{{contrato.get_estado_display}}</h4>
                                         <hr>

@@ -1,4 +1,5 @@
 
+from os import name
 from django.contrib import admin
 from django.urls import path
 from pages.views import *
@@ -15,16 +16,19 @@ urlpatterns = [
     path('logout/', logoutUser, name='logout'),
     path('user/<action>/', user_page, name='user_page'),
     path('ingresar-solicitud', user_add_solicitud, name='user_add_solicitud'),
-    path('pagos/', pagos_page, name='pagos_page'),
     path('ver-solicitud/<str:pk>', ver_solicitud, name='ver_solicitud'),
+    path('pagar/<str:pk>', pagar_page, name='pagar_page'),
     # parte tecnico
     path('func/<action>/', funcionario, name='funcionario'),
     path('listar-solicitudes/', listar_solicitudes, name='listar_solicitudes'),
     path('revisar-solicitud/<str:pk>/', revisar_solicitud, name='revisar_solicitud'),
     path('presupuesto-inicial/<str:pk>', presupuesto_inicial, name='presupuesto_inicial'),   
     path('add-presupuesto/', add_presupuesto_page, name='add_presupuesto_pages'),
-    path('listar-presupuestos/', listar_presupuesto, name='listar_presupuesto'),
     path('contrato/<str:pk>', contrato_page, name='contrato_page'),
+
+    path('causa/<str:pk>', ver_causa, name='ver_causa'),
+    path('add-contrato/', add_contrato, name='add_contrato'),
+    path('ingresos/', ver_ingresos, name='ver_ingresos'),
     
     # admin
     path('admin/', admin.site.urls),

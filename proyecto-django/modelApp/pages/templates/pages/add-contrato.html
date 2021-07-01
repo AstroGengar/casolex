@@ -1,0 +1,32 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="container border rounded my-3">
+            <h1 class="display-3">Agregar Contrato</h1>
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="d-flex flex-column">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-primary my-2">Guardar</button>
+                </div>
+            </form>
+        </div>
+        {% for message in messages%}
+            {% if message.tags == 'success'%}
+            <div class="alert alert-success my-3" role="alert">
+                {{message}}
+            </div>
+            {% else %}
+            <div class="alert alert-danger my-3" role="alert">
+                {{message}}
+            </div>
+            {% endif%}                
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

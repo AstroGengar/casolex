@@ -1,0 +1,41 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container my-4">
+        <div class="container border rounded ">
+            <h1 class="display-3">Pagar</h1>
+            <hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="d-flex flex-column">
+                    <div class="mx-auto">
+                        <i class="fab fa-cc-visa fa-2x"></i>
+                        <i class="fab fa-cc-mastercard fa-2x"></i>
+                    </div>
+                    <label for="{{form.metodo.name}}">Metodo</label>
+                    {{form.metodo}}
+                    <label for="{{form.numero_tarjeta.name}}">Número de tarjeta</label>
+                    {{form.numero_tarjeta}}
+                    <label for="{{form.exp.name}}">Fecha de expiración </label>
+                    <div>{{form.exp}}</div>
+                    <input type="submit" value="Pagar" class="btn btn-danger my-2">
+                </div>
+            </form>
+            {% for message in messages%}
+                {% if message.tags == 'success'%}
+                <div class="alert alert-success my-3" role="alert">
+                    {{message}}
+                </div>
+                {% else %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{message}}
+                </div>
+                {% endif%}                
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -62,14 +62,24 @@ class Solicitud(models.Model):
 
 class PresupuestoCliente(models.Model):
     solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE, related_name='solicitud')
-    valor = models.CharField(null=False, default='0', max_length=9)
+    valor = models.IntegerField(null=False, default=0)
     pagado = models.BooleanField(default=False, null=True, blank=False)
 
     def __str__(self):
-        return str(self.solicitud.cliente.rut + ' | ' + self.solicitud.tipo + ' | ' + self.valor)
+        return str(str(self.solicitud.id)+ ' | ' + self.solicitud.cliente.rut + ' | ' + self.solicitud.tipo + ' | ' + self.valor)
 
     class Meta:
         verbose_name = 'Presupuesto'
+
+class PagoCliente(models.Model):
+    presupuesto = models.ForeignKey(PresupuestoCliente, on_delete=models.CASCADE, related_name='presupuesto_pagar')
+    metodo = models.CharField(max_length=60)
+    numero_tarjeta = models.CharField(max_length=16)
+    exp = models.DateField()
+
+    def __str__(self):
+        return str(self.presupuesto.solicitud.cliente)
+
 
 class ContratoCliente(models.Model):
      

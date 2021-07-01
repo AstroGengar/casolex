@@ -1,0 +1,46 @@
+{% extends 'pages/home.html' %}
+{% load static %}
+
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="container border rounded p-2 shadow my-3">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Nombre</h3>
+                    <h2 class="text-secondary">{{causa.contrato.presupuesto.solicitud.cliente}}</h2>
+                </div>
+                <div class="col-6">
+                    <h3>Tipo solicitud</h3>
+                    <h2 class="text-secondary">{{causa.contrato.presupuesto.solicitud.get_tipo_display}}</h2>
+                </div>
+                <div class="col-12">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+
+                        <div class="d-flex flex-column">
+                            <label for="{{form.tribunal.name}}">Tribunal</label>
+                            {{form.tribunal}}
+                            <label for="{{form.etapa.name}}">Etapa</label>
+                            {{form.etapa}}
+                            <button type="submit" class="btn btn-primary my-2">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% for message in messages%}
+                {% if message.tags == 'success'%}
+                <div class="alert alert-success my-3" role="alert">
+                    {{message}}
+                </div>
+                {% else %}
+                <div class="alert alert-danger my-3" role="alert">
+                    {{message}}
+                </div>
+                {% endif%}                
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

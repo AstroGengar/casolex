@@ -93,16 +93,25 @@
                             <div class="accordion-body">
                                 <div class="container">
                                     <div class="row">
+                                        {% if presupuesto == 'sin presupuesto' %}
+                                        <div class="col-6">
+                                            <h1>Sin Presupuesto</h1>
+                                        </div>
+                                        {% else %}
+
                                         <div class="col-6">
                                             <div class="container mx-auto">
                                                 <h3>Valor</h3>
-                                                {% if presupuesto == 'sin presupuesto' %}
-                                                    <h3 class="text-secondary">Sin presupuesto</h3>
-                                                {% else %}
-                                                    <h4 class="text-secondary">$ {{presupuesto.valor}}</h4>
-                                                {% endif %}
+                                                <h4 class="text-secondary">$ {{presupuesto.valor}}</h4>
+                                                    
                                             </div>
                                         </div>
+                                        <div class="col-6">
+                                            <h3>Estado</h3>
+                                            <h4 class="text-secondary">{{presupuesto.pagado}}</h4>
+                                        </div>
+                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>
@@ -128,14 +137,17 @@
                                                     <h4 class="text-secondary">Sin Contrato</h4>
                                             </div>
                                         </div>
-                                        {% else %}                                        
+                                        {% else %}
+                                        {% if presupuesto.pagado == True %}
                                         <div class="col-6">
                                             <div class="container mx-auto">
                                                 <h3>Archivo</h3>
-                                                <form action="" method="POST">
+                                                <form action="" method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}
                                                     <a href="{{contrato.archivo.url}}"><i class="fas fa-file-download me-1"></i>{{form.archivo}}</a>
+                                                    <hr>
                                                     <input type="submit" value="Guardar" class="btn btn-primary mt-2">
-                                                </form>    
+                                                </form> 
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -144,6 +156,12 @@
                                                     <h4 class="text-secondary ">{{contrato.get_estado_display}}</h4>
                                             </div>
                                         </div>
+                                        {% else %}
+                                        <div class="col-6">
+                                            <h3>Sin pago realizado</h3>
+                                        </div>
+                                        {%endif%}   
+
                                         
                                         {% endif %}
                                     </div>
