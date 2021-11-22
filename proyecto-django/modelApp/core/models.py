@@ -8,11 +8,7 @@ class Cliente(models.Model):
     apellido_paterno = models.CharField(max_length=20, null=False)
     apellido_materno = models.CharField(max_length=20, null=False)
     email = models.EmailField(max_length=254)
-<<<<<<< HEAD
     numero = models.CharField(max_length=9)
-=======
-    numero = models.CharField(max_length=50)
->>>>>>> 8b0a8253f92bc67ce0e03925e53cc3f97181f163
 
     def __str__(self):
         return self.nombre  + ' ' + self.apellido_paterno + ' ' + self.email
